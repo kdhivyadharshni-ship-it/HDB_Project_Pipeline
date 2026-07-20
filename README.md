@@ -1,226 +1,165 @@
-# HDB Resale Flat Prices ETL Pipeline
+HDB Resale Flat Prices ETL Pipeline
+Project Overview
+This project implements an end-to-end ETL (Extract, Transform, Load) pipeline for the HDB Resale Flat
+Prices dataset published on data.gov.sg.
+The pipeline extracts multiple HDB resale datasets using the Data.gov.sg API, combines them into a master
+dataset, performs data validation and cleansing, removes invalid and duplicate records, applies business
+transformations, generates hashed identifiers, and exports the processed datasets into separate output
+folders.
+The solution also includes AWS architecture designs for secure and scalable data ingestion and data
+exploitation.
+Technology Stack
+• 
+• 
+• 
+• 
+• 
+• 
+Python 3.10+
+Pandas
+Requests
+Jupyter Notebook
+AWS Architecture (Design)
+Git & GitHub
 
-## Overview
-
-This project implements an end-to-end ETL (Extract, Transform, Load) pipeline for the HDB Resale Flat Prices dataset obtained from data.gov.sg.
-
-The pipeline performs the following:
-
-- Extracts multiple HDB resale datasets using the Data.gov.sg API
-- Combines all datasets into a master dataset
-- Performs data cleaning and validation
-- Removes invalid and duplicate records
-- Applies business transformations
-- Generates hashed identifiers
-- Produces separate output datasets for Raw, Cleaned, Transformed, Failed and Hashed data
-
-The project also includes AWS solution architecture designs for Data Ingestion and Data Exploitation.
-
----
-
-# Technology Stack
-
-- Python 3.x
-- Pandas
-- Requests
-- Jupyter Notebook
-- Git & GitHub
-- AWS Architecture (Solution Design)
-
----
-
-# Prerequisites
-
-Install Python 3.10 or later.
-
+Prerequisites
+Before running the project, ensure the following are installed:
+• 
+• 
+• 
+Python 3.10 or later
+pip (Python Package Manager)
+Jupyter Notebook (optional)
 Install the required Python packages:
-
-```bash
-pip install -r requirements.txt
-```
-
+pip install-r requirements.txt
 or
-
-```bash
-pip install pandas requests notebook
-```
-
----
-
-# Project Structure
-
-```
-HDB_Project/
-│
-├── HDB_Project_Pipeline.ipynb
-├── README.md
-├── requirements.txt
-│
-├── raw_data/
-│   ├── hdb_file_1.csv
-│   ├── hdb_file_2.csv
-│   ├── hdb_file_3.csv
-│   ├── hdb_file_4.csv
-│   ├── hdb_file_5.csv
-│   └── master_hdb_dataset.csv
-│
-├── cleaned/
-│   └── cleaned_dataset.csv
-│
-├── transformed/
-│   └── transformed_dataset.csv
-│
-├── failed/
-│   └── failed_dataset.csv
-│
-├── hashed/
-│   └── hashed_dataset.csv
-│
-└── architecture/
-    ├── Data_Ingestion_Architecture.png
-    └── Data_Exploitation_Architecture.png
-```
-
----
-
-# How to Run
-
-### 1. Clone the Repository
-
-```bash
+pip install pandas requests notebook jupyter
+How to Run
+1. 
+Clone the repository.
 git clone https://github.com/<your-github-username>/HDB_Project_Pipeline.git
-```
-
-### 2. Navigate to the Project
-
-```bash
+1. 
+Navigate to the project folder.
+2
 cd HDB_Project_Pipeline
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Launch Jupyter Notebook
-
-```bash
+1. 
+Install the dependencies.
+pip install-r requirements.txt
+1. 
+Launch Jupyter Notebook.
 jupyter notebook
-```
-
-### 5. Execute the Notebook
-
-Open **HDB_Project_Pipeline.ipynb** and run all cells from top to bottom.
-
----
-
-# ETL Workflow
-
-## Extract
-
-- Retrieve HDB resale datasets from Data.gov.sg API
-- Download all child datasets
-- Store each dataset in the **raw_data** folder
-- Combine into a master dataset
-
-## Clean
-
-- Standardize column names
-- Convert data types
-- Trim text fields
-- Validate mandatory fields
-- Remove invalid records
-- Remove duplicate records
-
-## Transform
-
-Generate additional business columns:
-
-- Remaining Lease
-- Price per Square Metre
-- Transaction Year
-- Transaction Month
-
-## Load
-
-Generate the following datasets:
-
-- Raw
-- Cleaned
-- Transformed
-- Failed
-- Hashed
-
----
-
-# Data Quality Rules
-
-The pipeline validates:
-
-- Resale Price > 0
-- Floor Area > 0
-- Valid Lease Commencement Year
-- Valid Transaction Month
-- Duplicate business records are removed while retaining the highest resale price
-
----
-
-# Output Files
-
-| Folder | Description |
-|---------|-------------|
-| raw_data | Raw datasets downloaded from Data.gov.sg |
-| cleaned | Records that passed validation |
-| transformed | Business-ready transformed dataset |
-| failed | Invalid and duplicate records |
-| hashed | Cleaned dataset with SHA-256 hashed identifier |
-
----
-
-# AWS Architecture
-
-The solution includes two architecture designs:
-
-### Data Ingestion
-
-- Data.gov.sg
-- NAT Gateway
-- AWS Glue
-- Amazon S3
-- Glue Data Catalog
-
-### Data Exploitation
-
-- Tableau
-- Amazon Athena
-- AWS PrivateLink
-- Amazon S3
-- Glue Data Catalog
-
-The architecture has been designed with the following considerations:
-
-- Security
-- Scalability
-- Performance
-- Private networking
-- Data encryption
-
----
-
-# Future Enhancements
-
-- Incremental Data Loading
-- Logging Framework
-- Configuration File Support
-- AWS Glue Job Scheduling
-- CI/CD Pipeline
-- Unit Testing
-
----
-
-# Author
-
+1. 
+2. 
+Open HDB_Project_Pipeline.ipynb.
+Execute all notebook cells from top to bottom.
+ETL Workflow
+Extract
+• 
+• 
+• 
+• 
+Retrieve HDB Resale Flat Price datasets from Data.gov.sg.
+Download all child datasets.
+Store each dataset in the raw_data folder.
+Combine all datasets into a single master dataset.
+Transform
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+Load
+Standardize column names.
+Convert data types.
+Trim and normalize text values.
+Validate mandatory fields.
+Remove invalid records.
+Remove duplicate records while keeping the highest resale price.
+Calculate remaining lease.
+Generate additional analytical columns such as:
+Price per square metre
+Transaction year
+Transaction month
+Generate the following outputs:
+• 
+• 
+• 
+raw_data/ – Raw downloaded datasets and consolidated master dataset.
+cleaned/ – Records that pass all validation rules.
+transformed/ – Business-ready dataset with derived columns.
+3
+• 
+• 
+failed/ – Invalid and duplicate records.
+hashed/ – Cleaned dataset with SHA-256 hashed identifiers.
+Data Quality Rules
+The pipeline performs the following validations:
+• 
+• 
+• 
+• 
+• 
+Resale price must be greater than zero.
+Floor area must be greater than zero.
+Lease commencement year must be valid.
+Transaction month must be valid.
+Duplicate business records are removed while retaining the highest resale price.
+Security Considerations
+The accompanying AWS architecture incorporates:
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+Private VPC
+NAT Gateway
+AWS Glue
+Amazon S3
+Glue Data Catalog
+Amazon Athena
+AWS PrivateLink (VPC Endpoint)
+IAM Roles
+AWS KMS Encryption
+Amazon CloudWatch
+AWS CloudTrail
+Repository Contents
+• 
+• 
+• 
+• 
+• 
+ETL Pipeline Notebook
+README
+requirements.txt
+AWS Architecture Diagrams
+Generated Output Files
+Future Improvements
+• 
+• 
+Configuration-driven ETL
+Logging framework
+4
+• 
+• 
+• 
+• 
+Automated scheduling using AWS Glue Jobs
+Incremental data ingestion
+Unit testing
+CI/CD integration using GitHub Actions
+Author
 Dhivyadharshni Karthikeyan
-
 Data Engineering Assessment – HDB Resale Flat Prices ETL Pipeline
+5
